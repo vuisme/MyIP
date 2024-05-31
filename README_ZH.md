@@ -1,6 +1,6 @@
 # 🧰 IP 工具箱
 
-![IPCheck.ing Banner](https://raw.githubusercontent.com/jason5ng32/MyIP/main/public/gh_banner.png)
+![IPCheck.ing Banner](https://raw.githubusercontent.com/jason5ng32/MyIP/main/public/github/gh_banner.png)
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/jason5ng32/MyIP)
 ![GitHub forks](https://img.shields.io/github/forks/jason5ng32/myip)
@@ -23,8 +23,7 @@
 
 备注：你可以直接用我已经搭建好的服务，也可以自行搭建。
 
-[![Deploy with Vercel](https://raw.githubusercontent.com/jason5ng32/MyIP/main/public/Vercel.svg)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fjason5ng32%2FMyIP&project-name=MyIP&repository-name=MyIP)
-[![Deploy with Docker](https://raw.githubusercontent.com/jason5ng32/MyIP/main/public/Docker.svg)](https://hub.docker.com/r/jason5ng32/myip)
+[![Deploy with Docker](https://raw.githubusercontent.com/jason5ng32/MyIP/main/public/github/Docker.svg)](https://hub.docker.com/r/jason5ng32/myip)
 
 这是我第一次用 Vue.js 练手的项目。我……只是一个普通的产品经理。
 
@@ -37,9 +36,11 @@
 * 🛑 **DNS 泄露检测**：查看 DNS 出口信息，以便查看在 VPN/代理的情况下，是否存在 DNS 泄露隐私的风险
 * 🚀 **网速测试**：利用边缘网络进行网速测试
 * 🚏 **代理规则测试**：配合代理软件的规则设置，测试规则设置是否正常
-* 🌐 **全球延迟测试**：从分布在全球的多个服务器进行延迟测试，了解你与全球网络的连接速度
+* ⏱️ **全球延迟测试**：从分布在全球的多个服务器进行延迟测试，了解你与全球网络的连接速度
 * 📡 **MTR 测试**：从分布在全球的多个服务器进行 MTR 测试，了解你与全球的连接路径
 * 🔦 **DNS 解析器**：从多个渠道对域名进行 DNS 解析，获取实时的解析结果，可用于污染判断
+* 🚧 **封锁测试**：检查特定的网站在部分国家是否被封锁
+* 📓 **Whois 查询**：对域名或 IP 进行 whois 信息查询
 * 🌗 **暗黑模式**：根据系统设置自动切换暗黑/白天模式，也可以手动切换
 * 📱 **简约模式**：为移动版提供的专门模式，缩短页面长度，快速查看最重要的信息
 * 🔍 **查任意 IP 信息**：可以通过小工具查询任意 IP 的信息
@@ -49,8 +50,6 @@
 * 🇺🇸 🇨🇳 🇫🇷 支持中文、英文、法文
 
 ## 📕 如何使用
-
-3 种部署方式：
 
 ### 在 Node 环境部署
 
@@ -62,16 +61,10 @@
 git clone https://github.com/jason5ng32/MyIP.git
 ```
 
-安装:
+安装与编译:
 
 ```bash
-npm install
-```
-
-编译：
-
-```bash
-npm run build
+npm install && npm run build
 ```
 
 运行:
@@ -81,10 +74,6 @@ npm start
 ```
 
 程序会运行在 18966 端口。
-
-### 使用 Vercel
-
-点击顶部的部署到 Vercel 按钮，即可完成部署。
 
 ### 使用 Docker
 
@@ -100,15 +89,18 @@ docker run -d -p 18966:18966 --name myip --restart always jason5ng32/myip:latest
 
 | 变量名 | 是否必须 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `PORT` | 否 | `18966` | 程序运行的端口 |
+| `BACKEND_PORT` | 否 | `"11966"` | 程序后端部分的运行端口 |
+| `FRONTEND_PORT` | 否 | `"18966"` | 程序前端部分的运行端口 |
+| `SECURITY_RATE_LIMIT` | 否 | `"0"` | 控制每 60 分钟一个 IP 可以对后端服务器请求的次数（设置为 0 则为不限制） |
+| `SECURITY_DELAY_AFTER` | 否 | `"0"` | 控制每 20 分钟一个 IP 的前 X 次请求不受速度限制，超过 X 次后会逐次增加延迟 |
+| `SECURITY_BLACKLIST_LOG_FILE_PATH` | 否 | `"logs/blacklist-ip.log"` | 路径设置。记录由 SECURITY_RATE_LIMIT 开启后，触发限制的 IP 列表 |
 | `BING_MAP_API_KEY` | 否 | `""` | Bing 地图的 API Key，用于展示 IP 所在地的地图 |
 | `ALLOWED_DOMAINS` | 否 | `""` | 允许访问的域名，用逗号分隔，用于防止后端 API 被滥用 |
 | `IPCHECKING_API_KEY` | 否 | `""` | IPCheck.ing 的 API Key，用于获取精准的 IP 归属地信息 |
 | `IPINFO_API_TOKEN` | 否 | `""` | IPInfo.io 的 API Token，用于通过 IPInfo.io 获取 IP 归属地信息 |
+| `IPAPIIS_API_KEY` | 否 | `""` | IPAPI.is 的 API Key，用于通过 IPAPI.is 获取 IP 归属地信息 |
 | `KEYCDN_USER_AGENT` | 否 | `""` | 使用 KeyCDN 时的域名，需包含 https 前缀。用于通过 KeyCDN 获取 IP 归属地信息 |
 | `CLOUDFLARE_API` | 否 | `""` | Cloudflare 的 API Key，用于通过 Cloudflare 获取 AS 系统的信息 |
-| `VITE_RECAPTCHA_SITE_KEY` | 否 | `""` | Google reCAPTCHA 的 Site Key，用于在前端显示 reCAPTCHA 验证 |
-| `RECAPTCHA_SECRET_KEY` | 否 | `""` | Google reCAPTCHA 的 Secret Key，用于在后端验证 reCAPTCHA 验证 |
 
 ### 在 Node 环境里使用环境变量
 
@@ -121,17 +113,14 @@ cp .env.example .env
 修改 `.env` 里的内容，比如：
 
 ```bash
-PORT=18966
+BACKEND_PORT=11966
+FRONTEND_PORT=18966
 BING_MAP_API_KEY="YOUR_KEY_HERE"
 ALLOWED_DOMAINS="example.com"
 IPCHECKING_API="YOUR_KEY_HERE"
 ```
 
 然后重新启动后端服务。
-
-### 在 Vercel 里使用环境变量
-
-请参考 `.env.example` 里的内容，添加到 Vercel 的环境变量里。
 
 ### 在 Docker 里使用环境变量
 
